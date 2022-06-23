@@ -18,8 +18,8 @@ class CalculatorPage extends StatefulWidget {
 class _CalculatorPageState extends State<CalculatorPage> {
   int? num1;
   int? num2;
-  String? history;
-  String? textToDisplay;
+  String history = "";
+  String textToDisplay = "";
   String? res;
   String? operation;
 
@@ -36,7 +36,37 @@ class _CalculatorPageState extends State<CalculatorPage> {
       num2 = 0;
       res = "";
       history = "";
-    } else If (buttonValue == "+" || buttonValue == "-"|| buttonValue == "x"|| buttonValue =="/"){}
+    } else if (buttonValue == "+" ||
+        buttonValue == "-" ||
+        buttonValue == "x" ||
+        buttonValue == "/") {
+      num1 = int.parse(textToDisplay);
+      res = "";
+      operation = buttonValue;
+    } else if (buttonValue == "=") {
+      num2 = int.parse(textToDisplay);
+      if (buttonValue == "+") {
+        res = (num1! + num2!).toString();
+        history = num1.toString() + operation.toString() + num2.toString();
+      }
+      if (buttonValue == "-") {
+        res = (num1! - num2!).toString();
+        history = num1.toString() + operation.toString() + num2.toString();
+      }
+      if (buttonValue == "x") {
+        res = (num1! * num2!).toString();
+        history = num1.toString() + operation.toString() + num2.toString();
+      }
+      if (buttonValue == "/") {
+        res = (num1! / num2!).toString();
+        history = num1.toString() + operation.toString() + num2.toString();
+      }
+    } else {
+      res = int.parse(textToDisplay + buttonValue).toString();
+    }
+    setState(() {
+      textToDisplay = res!;
+    });
   }
 
   @override
@@ -59,7 +89,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          "6.010",
+                          textToDisplay,
                           style: TextStyle(
                             fontSize: 55,
                             fontWeight: FontWeight.bold,
@@ -73,7 +103,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                         Container(
                           padding: EdgeInsets.only(right: 5),
                           child: Text(
-                            "10+500*2",
+                            history,
                             style: TextStyle(fontSize: 20, color: Colors.grey),
                           ),
                         ),
